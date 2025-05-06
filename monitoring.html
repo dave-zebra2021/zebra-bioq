@@ -1,0 +1,29 @@
+<!-- ✅ LIVE MONITORING PAGE -->
+<!-- Add this as its own section in index.html or a new HTML file -->
+<section id="live-monitoring" class="content-section" style="display: none;">
+  <h2>Live Monitoring</h2>
+  <div class="analytics-kpi-container">
+    <div class="analytics-kpi-card">
+      <h3>Biogas Production</h3>
+      <p id="live-biogas">0 m³</p>
+    </div>
+    <div class="analytics-kpi-card">
+      <h3>Temperature</h3>
+      <p id="live-temp">0 °C</p>
+    </div>
+    <div class="analytics-kpi-card">
+      <h3>Methane %</h3>
+      <p id="live-methane">0%</p>
+    </div>
+  </div>
+</section>
+<script>
+  function simulateLiveMonitoring() {
+    setInterval(() => {
+      document.getElementById("live-biogas").textContent = (500 + Math.random() * 100).toFixed(1) + " m³";
+      document.getElementById("live-temp").textContent = (35 + Math.random() * 2).toFixed(1) + " °C";
+      document.getElementById("live-methane").textContent = (50 + Math.random() * 10).toFixed(1) + "%";
+    }, 2000);
+  }
+  document.addEventListener("DOMContentLoaded", simulateLiveMonitoring);
+</script>
