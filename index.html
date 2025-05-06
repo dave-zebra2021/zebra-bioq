@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biogas Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+</head>
+
+<body>
+
+    <header>
+        <div style="display: flex; align-items: center; justify-content: space-between;">
+          <div style="display: flex; align-items: center;">
+            <img src="logo.png" alt="Zebra BioQ Logo" style="height: 60px; margin-right: 10px;">
+            <h1 style="margin: 0;">Zebra BioQ</h1>
+          </div>
+          <nav>
+            <button onclick="showSection('dashboard')">Dashboard</button>
+            <button onclick="showSection('Financial')">Financial</button>
+            <button onclick="showSection('digester-trends')">Digester Data</button>
+            <button onclick="showSection('lab-data')">Lab Data</button>
+            <button onclick="showSection('lab-source-data')">Lab Source Data</button>
+            <button onclick="showSection('settings')">Settings</button>
+          </nav>
+        </div>
+      </header>
+      
+
+
+
+    <section id="dashboard" class="content-section">
+        <label for="csvUpload">Upload CSV File:</label>
+        <input type="file" id="csvUpload" accept=".csv" title="Choose a CSV file to upload">
+        <div class="dashboard-container">
+            <!-- Left Section: Biogas Digester -->
+            <div class="dashboard-card half-section">
+                <h2>Biogas Digester Process</h2>
+                <svg viewBox="0 0 300 400" class="biogas-digester">
+                    <g transform="translate(0, 50)">
+                        <circle cx="150" cy="110" r="120" fill="limegreen" stroke="#5C8A22" stroke-width="3"/>
+                        <rect x="30" y="100" width="240" height="200" fill="#ffffff" stroke="#3B6B1B" stroke-width="3" rx="20"/>
+                        <rect id="biogasFill" x="30" y="140" width="240" height="160" fill="#8B4513" opacity="0.9" stroke-width="3" rx="20"/>
+                        <g id="bubbles"></g>
+                        <rect x="5" y="170" width="25" height="50" fill="#8B4513" stroke="#000" stroke-width="2"/>
+                        <text x="-10" y="195" font-size="12" fill="black" text-anchor="end">Feedstock</text>
+                        <rect x="270" y="120" width="20" height="20" fill="#FFD700" stroke="#000" stroke-width="2"/>
+                        <text x="295" y="135" font-size="12" fill="black" text-anchor="start">Biogas</text>
+                        <rect x="270" y="220" width="20" height="20" fill="#654321" stroke="#000" stroke-width="2"/>
+                        <text x="295" y="235" font-size="12" fill="black" text-anchor="start">Digestate</text>
+                    </g>
+                </svg>
+            </div>
+
+            <!-- Right Section: KPI Cards -->
+            <div class="dashboard-card half-section">
+                <h2>Key Numbers</h2>
+                <div class="kpi-container">
+                    <div class="kpi-card">
+                        <span>CHP Efficiency</span>
+                        <div class="kpi-value-container">
+                            <strong id="chp-value">50</strong>%
+                        </div>
+                    </div>
+
+                    <div class="kpi-card">
+                        <span>BtG Efficiency</span>
+                        <div class="kpi-value-container">
+                            <strong id="btg-value">50</strong>%
+                        </div>
+                    </div>
+
+                    <div class="kpi-card">
+                        <span>HRT</span>
+                        <div class="kpi-value-container">
+                            <strong id="hrt-value">10</strong> days
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="dashboard-card half-section">
+                <h2>Lab Metrics</h2>
+                <div class="kpi-container">
+                    <div class="kpi-card" onclick="openMenu('chp')">
+                        <span>CHP Efficiency</span>
+                        <div class="kpi-bar">
+                            <div class="kpi-segment green"></div>
+                            <div class="kpi-segment orange"></div>
+                            <div class="kpi-segment red"></div>
+                            <div class="kpi-indicator" id="chp-indicator">▼</div>
+                        </div>
+                        <span id="chp-value">50%</span>
+                    </div>
+                    <div class="kpi-card" onclick="openMenu('btg')">
+                        <span>BtG Efficiency</span>
+                        <div class="kpi-bar">
+                            <div class="kpi-segment green"></div>
+                            <div class="kpi-segment orange"></div>
+                            <div class="kpi-segment red"></div>
+                            <div class="kpi-indicator" id="btg-indicator">▼</div>
+                        </div>
+                        <span id="btg-value">50%</span>
+                    </div>
+                    <div class="kpi-card" onclick="openMenu('chp')">
+                        <span>CHP Efficiency</span>
+                        <div class="kpi-bar">
+                            <div class="kpi-segment green"></div>
+                            <div class="kpi-segment orange"></div>
+                            <div class="kpi-segment red"></div>
+                            <div class="kpi-indicator" id="chp-indicator">▼</div>
+                        </div>
+                        <span id="chp-value">50%</span>
+                    </div>
+                </div>
+            </div>
+            <div class="dashboard-card half-section">
+                <h2>Export Metrics</h2>
+                <div class="kpi-container">
+                    <div class="kpi-card" onclick="openMenu('chp')">
+                        <span>CHP Efficiency</span>
+                        <div class="kpi-bar">
+                            <div class="kpi-segment green"></div>
+                            <div class="kpi-segment orange"></div>
+                            <div class="kpi-segment red"></div>
+                            <div class="kpi-indicator" id="chp-indicator">▼</div>
+                        </div>
+                        <span id="chp-value">50%</span>
+                    </div>
+                    <div class="kpi-card" onclick="openMenu('btg')">
+                        <span>BtG Efficiency</span>
+                        <div class="kpi-bar">
+                            <div class="kpi-segment green"></div>
+                            <div class="kpi-segment orange"></div>
+                            <div class="kpi-segment red"></div>
+                            <div class="kpi-indicator" id="btg-indicator">▼</div>
+                        </div>
+                        <span id="btg-value">50%</span>
+                    </div>
+                    <div class="kpi-card" onclick="openMenu('chp')">
+                        <span>CHP Efficiency</span>
+                        <div class="kpi-bar">
+                            <div class="kpi-segment green"></div>
+                            <div class="kpi-segment orange"></div>
+                            <div class="kpi-segment red"></div>
+                            <div class="kpi-indicator" id="chp-indicator">▼</div>
+                        </div>
+                        <span id="chp-value">50%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="dashboard-card half-width">
+            <h2>Feed Summary</h2>
+            <table id="feed-summary-table">
+                <thead>
+                    <tr>
+                        <th>Feed</th>
+                        <th>Theoretical Tonnage Fed (Daily)</th>
+                        <th>Theoretical m³ Produced</th>
+                        <th>Actual Fed (Daily)</th>
+                        <th>Actual m³ Produced</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Rows will be dynamically added here -->
+                </tbody>
+            </table>
+        </div>
+        <div class="full-section">
+            <h2>Biogas Outputs</h2>
+            <div id="gas-output-container" class="output-container"></div>
+        </div>
+    </section>
+    <section id="Financial" class="content-section" style="display: none;">
+        <!-- Financial Content -->
+        <h2>Financial Overview</h2>
+
+        <!-- KPI Cards -->
+        <div class="financial-kpi-container">
+            <div class="financial-kpi-card">
+                <h3>Income</h3>
+                <p id="income-value">$0</p>
+            </div>
+            <div class="financial-kpi-card">
+                <h3>Expenses</h3>
+                <p id="expenses-value">$0</p>
+            </div>
+            <div class="financial-kpi-card">
+                <h3>Net Profit</h3>
+                <p id="net-profit-value">$0</p>
+            </div>
+        </div>
+
+        <!-- Financial Table -->
+        <h3>Detailed Financial Breakdown</h3>
+        <table id="financial-summary-table">
+            <thead>
+                <tr>
+                    <th>Biogas Output</th>
+                    <th>kW/m³ Output</th>
+                    <th>Cost per kW/m³</th>
+                    <th>Calculated Income</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </section>
+    <section id="digester-trends" class="content-section" style="display: none;">
+        <h2>Performance Analytics</h2>
+
+        <!-- KPI Cards -->
+        <div class="analytics-kpi-container">
+            <div class="analytics-kpi-card">
+                <h3>OLR</h3>
+                <p id="olr-value">0 kgVS/m³</p>
+            </div>
+            <div class="analytics-kpi-card">
+                <h3>HRT</h3>
+                <p id="hrt-value">0 days</p>
+            </div>
+            <div class="analytics-kpi-card">
+                <h3>Ammonia</h3>
+                <p id="ammonia-value">0 mg/L</p>
+            </div>
+            <div class="analytics-kpi-card">
+                <h3>Efficiency</h3>
+                <p id="efficiency-value">0%</p>
+            </div>
+        </div>
+
+        <!-- Dropdown to Select Metric -->
+        <label for="metric-select">Select Metric:</label>
+        <select id="metric-select" onchange="updateChart()">
+        <option value="olr">OLR (kgVS/m³/day)</option>
+        <option value="hrt">HRT (days)</option>
+        <option value="ammonia">Ammonia (mg/L)</option>
+        <option value="vsWeight">VS Weight (%)</option>
+        <option value="runRate">Run Rate Performance (%)</option>
+        <option value="efficiency">Efficiency (%)</option>
+        <option value="biogasProduced">Biogas Produced (m³)</option>
+        <option value="totalFed">Total Fed (tonnes)</option>
+        <option value="methanePercentage">Methane Percentage (%)</option>
+    </select>
+
+        <!-- Line Chart -->
+        <canvas id="analyticsChart"></canvas>
+
+    </section>
+    <section id="lab-data" class="content-section" style="display: none;">
+        <!-- Lab Data -->
+    </section>
+    <section id="lab-source-data" class="content-section" style="display: none;">
+        <h2>Lab Backend Data</h2>
+        <div class="lab-table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Feedstock</th>
+                        <th>Dry Matter (%)</th>
+                        <th>Volatile Solids (% of DM)</th>
+                        <th>Biogas Yield (m³/tonne FM)</th>
+                        <th>Methane Content (%)</th>
+                        <th>C:N Ratio</th>
+                    </tr>
+                </thead>
+                <tbody id="lab-data-body"></tbody>
+            </table>
+        </div>
+    </section>
+    <section id="settings" class="content-section" style="display: none;">
+        <h2>System Settings</h2>
+
+        <form id="settings-form">
+            <h3>Annual Tonnage of Feed</h3>
+            <div id="feed-inputs-container">
+                <button type="button" onclick="addFeedRow()">+ Add Feedstock</button>
+            </div>
+
+            <h3>Water & Recirculation</h3>
+            <label for="freshWater">Fresh Water Tonnes/M³ Daily:</label>
+            <input type="number" id="freshWater" step="0.01" placeholder="Enter amount">
+
+            <label for="recirculated">Recirculated %:</label>
+            <input type="number" id="recirculated" step="0.01" placeholder="Enter percentage">
+
+            <label for="recirculatedDM">Recirculated DM%:</label>
+            <input type="number" id="recirculatedDM" step="0.01" placeholder="Enter percentage">
+
+            <h3>Biogas Output</h3>
+            <div id="biogas-output-container">
+                <button type="button" onclick="addBiogasOutputRow()">+ Add Output</button>
+            </div>
+
+            <h3>Additional System Data</h3>
+            <label for="annualOPEX">Annual OPEX Costs (£):</label>
+            <input type="number" id="annualOPEX" step="0.01" placeholder="Enter amount">
+
+            <label for="annualPowerCosts">Annual Power Costs:</label>
+            <input type="number" id="annualPowerCosts" step="0.01" placeholder="Enter Annual Power Costs">
+
+            <label for="maxDigesterVolume">Max Digester Volume:</label>
+            <input type="number" id="maxDigesterVolume" step="0.01" placeholder="Enter Digester Volume">
+
+            <label for="maxDigesterFeed">Max Digester Feed Input:</label>
+            <input type="number" id="maxDigesterFeed" step="0.01" placeholder="Enter Max Feed Input">
+
+            <label for="maxBiogasProduced">Max Biogas Produced:</label>
+            <input type="number" id="maxBiogasProduced" step="0.01" placeholder="Enter Max Biogas Produced">
+
+
+            <button type="submit">Save Settings</button>
+        </form>
+
+    </section>
+    <script src="script.js"></script>
+</body>
+
+</html>

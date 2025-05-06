@@ -1,0 +1,568 @@
+/* General Styling */
+
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    background: #f4f4f4;
+}
+
+header {
+    background: #333;
+    color: #fff;
+    padding: 10px;
+}
+
+
+/* 🚀 Gas Output Section */
+
+.output-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+.biogas-output-card {
+    width: 250px;
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    transition: transform 0.2s;
+}
+
+.biogas-output-card:hover {
+    transform: scale(1.05);
+}
+
+.linear-gauge {
+    width: 100%;
+    height: 15px;
+    background: lightgray;
+    border-radius: 5px;
+    position: relative;
+    margin: 10px 0;
+    overflow: hidden;
+}
+
+.gauge-fill {
+    height: 100%;
+    background: green;
+    width: 50%;
+}
+
+.output-icon {
+    margin: 10px 0;
+}
+
+.biogas-output-card input {
+    width: 100%;
+    padding: 5px;
+    border: 1px solid gray;
+    border-radius: 5px;
+}
+
+
+/* 🚀 Financial Section */
+
+.financial-kpi-container {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+}
+
+.financial-kpi-card {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    flex: 1;
+    margin: 0 10px;
+}
+
+.financial-kpi-card h3 {
+    margin: 0;
+    font-size: 18px;
+    color: #333;
+}
+
+.financial-kpi-card p {
+    font-size: 24px;
+    font-weight: bold;
+    color: #007BFF;
+}
+
+
+/* 🚀 Financial Table */
+
+#financial-summary-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+#financial-summary-table th,
+#financial-summary-table td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    text-align: center;
+}
+
+#financial-summary-table th {
+    background: #f8f8f8;
+}
+
+
+/* Dashboard Layout - Side by Side */
+
+.dashboard-container {
+    display: flex;
+    /* This ensures side-by-side layout */
+    flex-wrap: nowrap;
+    /* Prevents stacking */
+    gap: 20px;
+    justify-content: space-between;
+    /* Keeps equal spacing */
+    align-items: stretch;
+    padding: 20px;
+}
+
+
+/* Half Section - Forces each card to take 50% width */
+
+.half-section {
+    flex: 1;
+    /* Makes each section take equal space */
+    max-width: 20%;
+    /* Prevents overlapping */
+}
+
+.half2-section {
+    flex: 1;
+    /* Makes each section take equal space */
+    max-width: 20%;
+    /* Prevents overlapping */
+}
+
+.dashboard-card {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    height: 350px;
+    /* Adjusted to give more space */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+
+/* Make sure KPI Cards align properly inside their section */
+
+.kpi-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+}
+
+
+/* KPI Cards */
+
+.kpi-card {
+    background: white;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    width: 180px;
+    text-align: center;
+    transition: transform 0.2s ease-in-out;
+}
+
+.kpi-card:hover {
+    transform: scale(1.05);
+}
+
+
+/* KPI Value & Input Layout */
+
+.kpi-value-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+}
+
+
+/* KPI Number (Left) */
+
+.kpi-value-container strong {
+    font-size: 20px;
+    font-weight: bold;
+    color: black;
+}
+
+
+/* KPI Input Box (Right) */
+
+.kpi-value-container input {
+    width: 50px;
+    padding: 5px;
+    font-size: 16px;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+}
+
+.kpi-value-container input:focus {
+    border-color: #007BFF;
+}
+
+
+/* KPI Bar */
+
+.kpi-bar {
+    position: relative;
+    width: 100%;
+    height: 10px;
+    background: lightgray;
+    border-radius: 5px;
+    display: flex;
+    overflow: relative;
+}
+
+
+/* Color-coded KPI segments */
+
+.kpi-segment {
+    height: 100%;
+    flex-grow: 1;
+}
+
+.green {
+    background: green;
+}
+
+.orange {
+    background: orange;
+}
+
+.red {
+    background: red;
+}
+
+
+/* KPI Indicator */
+
+.kpi-indicator {
+    position: absolute;
+    top: -10px;
+    font-size: 14px;
+    left: 50%;
+}
+
+
+/* KPI Menu (Hidden by Default) */
+
+.kpi-menu {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 20px;
+    border-radius: 5px;
+    border: 1px solid #000;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+nav {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    /* Allows buttons to wrap if needed */
+}
+
+nav button {
+    padding: 10px 20px;
+    border: none;
+    background: #007BFF;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+    transition: background 0.2s;
+}
+
+nav button:hover {
+    background: #0056b3;
+}
+
+
+/* Content Sections */
+
+.content-section {
+    margin: 20px;
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+
+/* Graph Styling */
+
+canvas {
+    max-width: 100%;
+    max-height: 400px;
+    width: auto;
+    height: auto;
+}
+
+
+/* Tables */
+
+table {
+    width: 100%;
+    margin-top: 20px;
+}
+
+th,
+td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+
+/* Biogas Digester */
+
+.infographic-container {
+    margin-top: 20px;
+}
+
+.biogas-digester {
+    width: 100%;
+    /* Keep it responsive */
+    max-width: 100%;
+    /* Adjust max width as needed */
+    height: 100%;
+    /* Increase height within the card */
+    max-height: 100%;
+    /* Prevent it from exceeding card height */
+    display: block;
+}
+
+
+/* Bubble Animation */
+
+@keyframes bubbleFloat {
+    0% {
+        transform: translateY(0px);
+        opacity: 0.8;
+    }
+    100% {
+        transform: translateY(-220px);
+        opacity: 0;
+    }
+}
+
+.bubble {
+    opacity: 0.7;
+    animation: bubbleFloat 4s infinite linear;
+}
+
+
+/* Responsive Layout */
+
+@media (max-width: 768px) {
+    .dashboard-container {
+        flex-direction: column;
+        align-items: center;
+    }
+    .dashboard-card {
+        width: 90%;
+        min-width: unset;
+    }
+    .kpi-card {
+        width: 100%;
+        max-width: 300px;
+    }
+    .half-section {
+        width: 100%;
+        /* Full width when stacked */
+        max-width: unset;
+    }
+}
+
+
+/* Lab Data Table */
+
+.lab-table-container {
+    overflow-x: auto;
+    margin-top: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+th,
+td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    text-align: center;
+}
+
+th {
+    background: #007BFF;
+    color: white;
+}
+
+tr:nth-child(even) {
+    background: #f4f4f4;
+}
+
+
+/* Form Layout */
+
+#settings-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    max-width: 600px;
+    margin: auto;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+
+/* Input and Dropdown Fields */
+
+input,
+select {
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+}
+
+
+/* Make "Add Feedstock" Button Look Normal */
+
+button {
+    cursor: pointer;
+    background: #007BFF;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 16px;
+    width: auto;
+    /* Prevent full width */
+}
+
+
+/* Fix Delete Buttons */
+
+.feed-row button,
+.biogas-output-row button {
+    background: rgb(255, 255, 255);
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+.feed-row button:hover,
+.biogas-output-row button:hover {
+    background: darkred;
+}
+
+
+/* Ensure Rows Align Properly */
+
+.feed-row,
+.biogas-output-row {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-top: 10px;
+}
+
+
+/* Limit button width */
+
+.feed-row select,
+.feed-row input {
+    flex: 1;
+    /* Makes them align properly */
+}
+
+
+/* Ensure settings form looks centered */
+
+.content-section {
+    margin: 20px;
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+
+/* 🚀 Analytics Section */
+
+.analytics-kpi-container {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+}
+
+.analytics-kpi-card {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    flex: 1;
+    margin: 0 10px;
+}
+
+.analytics-kpi-card h3 {
+    margin: 0;
+    font-size: 18px;
+    color: #333;
+}
+
+.analytics-kpi-card p {
+    font-size: 24px;
+    font-weight: bold;
+    color: #007BFF;
+}
+
+
+/* 🚀 Dynamic Chart */
+
+#analyticsChart {
+    width: 100%;
+    height: 400px;
+}
