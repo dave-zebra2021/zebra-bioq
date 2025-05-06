@@ -37,11 +37,15 @@
     <button onclick="handleLogin()">Login</button>
   </div>
   <script>
+    const USERS = [{ username: 'admin', password: 'zebra123' }, { username: 'viewer', password: 'bioguest' }];
+
     function handleLogin() {
       const user = document.getElementById('username').value;
       const pass = document.getElementById('password').value;
-      if (user === 'admin' && pass === 'zebra123') {
+      const match = USERS.find(u => u.username === user && u.password === pass);
+      if (match) {
         localStorage.setItem('loggedIn', 'true');
+        localStorage.setItem('currentUser', user);
         window.location.href = 'index.html';
       } else {
         alert('Invalid credentials');
