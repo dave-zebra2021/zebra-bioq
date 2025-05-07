@@ -1,43 +1,60 @@
-<!-- ✅ CSV IMPORT WIZARD -->
-<!-- Include this as a new section in index.html or a separate file -->
-<section id="csv-import" class="content-section" style="display: none;">
-  <h2>CSV Import Wizard</h2>
-  <input type="file" id="csv-file" accept=".csv">
-  <button onclick="parseCSV()">Parse CSV</button>
-  <table id="csv-preview"></table>
-</section>
-<script>
-  function parseCSV() {
-    const file = document.getElementById('csv-file').files[0];
-    if (!file) return alert("Please select a CSV file");
-
-    Papa.parse(file, {
-      header: true,
-      dynamicTyping: true,
-      complete: function(results) {
-        const table = document.getElementById("csv-preview");
-        table.innerHTML = "";
-        const data = results.data;
-        if (!data.length) return alert("Empty CSV");
-
-        const headers = Object.keys(data[0]);
-        const thead = document.createElement("thead");
-        thead.innerHTML = `<tr>${headers.map(h => `<th>${h}</th>`).join('')}</tr>`;
-        table.appendChild(thead);
-
-        const tbody = document.createElement("tbody");
-        data.forEach(row => {
-          const tr = document.createElement("tr");
-          headers.forEach(h => {
-            const td = document.createElement("td");
-            td.textContent = row[h];
-            tr.appendChild(td);
-          });
-          tbody.appendChild(tr);
-        });
-        table.appendChild(tbody);
-        console.log("CSV Parsed:", data);
-      }
-    });
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>CSV Import Wizard</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+  <link rel="stylesheet" href="styles.css">
+  <script>
+  if (localStorage.getItem("loggedIn") !== "true") {
+    window.location.href = "login.html";
   }
 </script>
+
+</head>
+<body>
+
+  <!-- CSV IMPORT SECTION -->
+  <section class="content-section">
+    <h2>CSV Import Wizard</h2>
+    <input type="file" id="csv-file" accept=".csv">
+    <button onclick="parseCSV()">Parse CSV</button>
+    <table id="csv-preview"></table>
+  </section>
+
+  <script>
+    function parseCSV() {
+      const file = document.getElementById('csv-file').files[0];
+      if (!file) return alert("Please select a CSV file");
+
+      Papa.parse(file, {
+        header: true,
+        dynamicTyping: true,
+        complete: function(results) {
+          const table = document.getElementById("csv-preview");
+          table.innerHTML = "";
+          const data = results.data;
+          if (!data.length) return alert("Empty CSV");
+
+          const headers = Object.keys(data[0]);
+          const thead = document.createElement("thead");
+          thead.innerHTML = `<tr>${headers.map(h => `<th>${h}</th>`).join('')}</tr>`;
+          table.appendChild(thead);
+
+          const tbody = document.createElement("tbody");
+          data.forEach(row => {
+            const tr = document.createElement("tr");
+            headers.forEach(h => {
+              const td = document.createElement("td");
+              td.textContent = row[h];
+              tr.appendChild(td);
+            });
+            tbody.appendChild(tr);
+          });
+          table.appendChild(tbody);
+        }
+      });
+    }
+  </script>
+</body>
+</html>
