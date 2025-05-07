@@ -7,10 +7,29 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
   <link rel="stylesheet" href="styles.css">
   <style>
-    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+   
     th, td { padding: 10px; border: 1px solid #ccc; text-align: center; }
     select { width: 100%; padding: 5px; }
     .mapping-row select { margin-bottom: 5px; }
+    .scroll-container {
+  overflow-x: auto;
+  width: 100%;
+  max-width: 100%;
+}
+
+table {
+  border-collapse: collapse;
+  margin-top: 20px;
+  min-width: 1200px; /* force scroll on smaller screens */
+}
+
+th, td {
+  padding: 10px;
+  border: 1px solid #ccc;
+  text-align: center;
+  white-space: nowrap; /* prevent text wrapping */
+}
+
   </style>
 </head>
 <body>
