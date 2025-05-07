@@ -26,12 +26,18 @@
       text-align: center;
       white-space: nowrap;
     }
-    th {
+    thead th {
       position: sticky;
       top: 0;
       background: #007BFF;
       color: white;
-      z-index: 1;
+      z-index: 2;
+    }
+    thead tr.mapping-row th {
+      position: sticky;
+      top: 0;
+      background: #ffffff;
+      z-index: 3;
     }
     select {
       width: 100%;
@@ -74,13 +80,16 @@
           const headers = Object.keys(data[0]);
           const previewRows = data.slice(0, 25);
 
-          let html = '<table><thead><tr class="mapping-row">';
+          let html = '<table><thead>';
+          html += '<tr class="mapping-row">';
           headers.forEach((_, index) => {
             html += '<th><select data-col="' + index + '">' +
                     systemFields.map(f => `<option value="${f}">${f}</option>`).join('') +
                     '</select></th>';
           });
-          html += '</tr><tr>' + headers.map(h => `<th>${h}</th>`).join('') + '</tr></thead><tbody>';
+          html += '</tr>';
+
+          html += '<tr>' + headers.map(h => `<th>${h}</th>`).join('') + '</tr></thead><tbody>';
 
           previewRows.forEach(row => {
             html += '<tr>' + headers.map(h => `<td>${row[h] ?? ''}</td>`).join('') + '</tr>';
