@@ -28,12 +28,12 @@
     }
     thead th {
       position: sticky;
-      top: 0;
+      top: 40px;
       background: #007BFF;
       color: white;
       z-index: 2;
     }
-    thead tr.mapping-row th {
+    .mapping-row th {
       position: sticky;
       top: 0;
       background: #ffffff;
@@ -78,7 +78,7 @@
           if (!data.length) return alert("Empty CSV");
 
           const headers = Object.keys(data[0]);
-          const previewRows = data.slice(0, 25);
+          const previewRows = data.slice(0, 10);
 
           let html = '<table><thead>';
           html += '<tr class="mapping-row">';
