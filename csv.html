@@ -62,8 +62,12 @@
   <script>
     const systemFields = [
       "-- Select Field --",
-      "Feed Type", "Input Tons", "DM%", "FOS", "TAC",
-      "pH", "Ammonia", "Biogas Produced", "Methane %"
+      "Date", "Feed Type", "Input Tons", "DM%", "FOS", "TAC",
+      "pH", "Ammonia", "Biogas Produced", "Methane %", "Digestate %DS",
+      "Digestate %VS", "OLR (kgVS/m3/day)", "Digester operating temperature",
+      "Digester operating volume", "CHP Output", "BtG Output",
+      "Total daily electricity produced", "Biomethane produced (m3/day)",
+      "VS Balance"
     ];
 
     function parseCSV() {
@@ -83,7 +87,7 @@
           let html = '<table><thead>';
           html += '<tr class="mapping-row">';
           headers.forEach((_, index) => {
-            html += '<th><select data-col="' + index + '">' +
+            html += '<th><select data-col="' + index + '" onchange="updateDropdowns(this)">' +
                     systemFields.map(f => `<option value="${f}">${f}</option>`).join('') +
                     '</select></th>';
           });
@@ -97,6 +101,19 @@
 
           html += '</tbody></table>';
           document.getElementById("mapping-container").innerHTML = html;
+        }
+      });
+    }
+
+    function updateDropdowns(selectedDropdown) {
+      const selectedValue = selectedDropdown.value;
+      const dropdowns = document.querySelectorAll('.mapping-row select');
+      dropdowns.forEach(dropdown => {
+        if (dropdown !== selectedDropdown) {
+          const options = dropdown.options;
+          for (let i = 0; i < options.length; i++) {
+            options[i].disabled = options[i].value !== "-- Select Field --" && options[i].value === selectedValue;
+          }
         }
       });
     }
