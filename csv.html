@@ -1,3 +1,4 @@
+<!-- ✅ CSV IMPORT PAGE WITH FIELD MAPPING -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,24 +6,29 @@
   <title>CSV Import Wizard</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
   <link rel="stylesheet" href="styles.css">
-  <script>
-  if (localStorage.getItem("loggedIn") !== "true") {
-    window.location.href = "login.html";
-  }
-</script>
-
+  <style>
+    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+    th, td { padding: 10px; border: 1px solid #ccc; text-align: center; }
+    select { width: 100%; padding: 5px; }
+    .mapping-row select { margin-bottom: 5px; }
+  </style>
 </head>
 <body>
-
-  <!-- CSV IMPORT SECTION -->
   <section class="content-section">
-    <h2>CSV Import Wizard</h2>
+    <h2>CSV Import & Field Mapping</h2>
     <input type="file" id="csv-file" accept=".csv">
-    <button onclick="parseCSV()">Parse CSV</button>
-    <table id="csv-preview"></table>
+    <button onclick="parseCSV()">Preview CSV</button>
+
+    <div id="mapping-container"></div>
   </section>
 
   <script>
+    const systemFields = [
+      "-- Select Field --",
+      "Feed Type", "Input Tons", "DM%", "FOS", "TAC",
+      "pH", "Ammonia", "Biogas Produced", "Methane %"
+    ];
+
     function parseCSV() {
       const file = document.getElementById('csv-file').files[0];
       if (!file) return alert("Please select a CSV file");
@@ -31,27 +37,26 @@
         header: true,
         dynamicTyping: true,
         complete: function(results) {
-          const table = document.getElementById("csv-preview");
-          table.innerHTML = "";
           const data = results.data;
           if (!data.length) return alert("Empty CSV");
 
           const headers = Object.keys(data[0]);
-          const thead = document.createElement("thead");
-          thead.innerHTML = `<tr>${headers.map(h => `<th>${h}</th>`).join('')}</tr>`;
-          table.appendChild(thead);
+          const previewRows = data.slice(0, 5);
 
-          const tbody = document.createElement("tbody");
-          data.forEach(row => {
-            const tr = document.createElement("tr");
-            headers.forEach(h => {
-              const td = document.createElement("td");
-              td.textContent = row[h];
-              tr.appendChild(td);
-            });
-            tbody.appendChild(tr);
+          let html = '<table><thead><tr class="mapping-row">';
+          headers.forEach((_, index) => {
+            html += '<th><select data-col="' + index + '">' +
+                    systemFields.map(f => `<option value="${f}">${f}</option>`).join('') +
+                    '</select></th>';
           });
-          table.appendChild(tbody);
+          html += '</tr><tr>' + headers.map(h => `<th>${h}</th>`).join('') + '</tr></thead><tbody>';
+
+          previewRows.forEach(row => {
+            html += '<tr>' + headers.map(h => `<td>${row[h] ?? ''}</td>`).join('') + '</tr>';
+          });
+
+          html += '</tbody></table>';
+          document.getElementById("mapping-container").innerHTML = html;
         }
       });
     }
