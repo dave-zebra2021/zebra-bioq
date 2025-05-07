@@ -11,6 +11,8 @@
       overflow-x: auto;
       width: 100%;
       max-width: 100%;
+      max-height: 500px;
+      overflow-y: auto;
     }
     table {
       border-collapse: collapse;
@@ -23,6 +25,13 @@
       border: 1px solid #ccc;
       text-align: center;
       white-space: nowrap;
+    }
+    th {
+      position: sticky;
+      top: 0;
+      background: #007BFF;
+      color: white;
+      z-index: 1;
     }
     select {
       width: 100%;
@@ -63,7 +72,7 @@
           if (!data.length) return alert("Empty CSV");
 
           const headers = Object.keys(data[0]);
-          const previewRows = data.slice(0, 5);
+          const previewRows = data.slice(0, 25);
 
           let html = '<table><thead><tr class="mapping-row">';
           headers.forEach((_, index) => {
